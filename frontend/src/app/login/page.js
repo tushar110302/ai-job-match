@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { Api } from "@/services/api";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -64,29 +65,11 @@ export default function LoginPage() {
 
     try {
       setLoading(true);
+      // console.log("LOGIN DATA:", formData);
 
-      // API CALL HERE
-      // Example:
-      /*
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
-      */
-
-      console.log("LOGIN DATA:", formData);
-
-      // temporary delay simulation
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await Api.login(formData);
+      console.log(response);
+      localStorage.setItem("user", response?.user);
     } catch (error) {
       console.log("_handleSubmit::error: ", error);
     } finally {

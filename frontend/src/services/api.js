@@ -30,7 +30,7 @@ const _apiClient = async (
     }
     return await res.json();
   } catch (error) {
-    throw error.error;
+    throw error?.error || error;
   }
 };
 

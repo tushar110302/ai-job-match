@@ -50,13 +50,6 @@ const _validateInputs = (data, inputFields) => {
 const signUpController = async (req, res) => {
   const { username, email, password } = req.body;
 
-  // if (!username || !email || !password) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: "All fields are required",
-  //   });
-  // }
-
   const inputFields = ["username", "email", "password"];
 
   const error = _validateInputs(req.body, inputFields);
@@ -100,13 +93,6 @@ const signUpController = async (req, res) => {
 
 const loginController = async (req, res) => {
   const { email, password } = req.body;
-
-  // if (!email || !password) {
-  //   return res.status(400).json({
-  //     success: false,
-  //     message: "All fields are required",
-  //   });
-  // }
 
   const inputFields = ["email", "password"];
 
