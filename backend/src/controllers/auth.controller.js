@@ -1,3 +1,4 @@
+import { Blacklist } from "../models/blacklist.model.js";
 import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
@@ -46,6 +47,7 @@ const validateInputs = (data, inputFields) => {
   return error;
 };
 
+
 const signUpController = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -59,15 +61,10 @@ const signUpController = async (req, res) => {
   const inputFields = ["username", "email", "password"];
 
   const error = validateInputs(req.body, inputFields);
-  // inputFields.forEach((field) => {
-  //   const e = inputValidator[field](req.body[field]);
-  //   e && (error[field] = e);
-  // });
-
   if (error) {
     return res.status(400).json({
       success: false,
-      error
+      error,
     });
   }
 
@@ -114,10 +111,6 @@ const loginController = async (req, res) => {
   const inputFields = ["email", "password"];
 
   const error = validateInputs(req.body, inputFields);
-  // inputFields.forEach((field) => {
-  //   const e = inputValidator[field](req.body[field]);
-  //   e && (error[field] = e);
-  // });
 
   if (error) {
     return res.status(400).json({
@@ -160,4 +153,17 @@ const loginController = async (req, res) => {
     });
 };
 
-export { signUpController, loginController };
+const logoutController = async (req, res) => {
+  const token = req.cookies.token;
+
+  if (token) {
+    await Blacklist.create({ token });
+  }
+
+  return res.clearCookie("token").status(200).json({
+    success: true,
+    message: "User logged out successfully",
+  });
+};
+
+export { signUpController, loginController, logoutController };
