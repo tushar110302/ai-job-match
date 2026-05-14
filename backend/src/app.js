@@ -12,8 +12,12 @@ app.use(
   }),
 );
 
+import authRouter from "./routes/auth.routes.js";
+
+app.use("/api/auth", authRouter);
+
 app.get("/", (req, res) => {
-  res.json({
+  return res.json({
     success: true,
     message: "Your server is up and running....",
   });
