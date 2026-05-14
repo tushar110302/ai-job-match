@@ -2,12 +2,12 @@ import { Blacklist } from "../models/blacklist.model.js";
 import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
-const generateToken = (user) => {
+const _generateToken = (user) => {
   return jwt.sign(
     {
-      id: user._id,
-      username: user.username,
-      email: user.email,
+      id: user?._id,
+      username: user?.username,
+      email: user?.email,
     },
     process.env.JWT_SECRET,
     {
@@ -30,14 +30,14 @@ const inputValidator = {
     return "";
   },
   password: (v = "") => {
-    if (v.length < 6) {
+    if (!v.trim()) return "Password is required\n";
+    if (v.trim().length < 6)
       return "\nPassword must be at least 6 characters\n";
-    }
     return "";
   },
 };
 
-const validateInputs = (data, inputFields) => {
+const _validateInputs = (data, inputFields) => {
   let error = "";
   inputFields.forEach((field) => {
     const e = inputValidator[field](data[field]);
@@ -46,7 +46,6 @@ const validateInputs = (data, inputFields) => {
 
   return error;
 };
-
 
 const signUpController = async (req, res) => {
   const { username, email, password } = req.body;
@@ -60,7 +59,7 @@ const signUpController = async (req, res) => {
 
   const inputFields = ["username", "email", "password"];
 
-  const error = validateInputs(req.body, inputFields);
+  const error = _validateInputs(req.body, inputFields);
   if (error) {
     return res.status(400).json({
       success: false,
@@ -82,7 +81,8 @@ const signUpController = async (req, res) => {
     email,
     password,
   });
-  const token = generateToken(user);
+
+  const token = _generateToken(user);
 
   return res
     .cookie("token", token, { httpOnly: true })
@@ -110,7 +110,7 @@ const loginController = async (req, res) => {
 
   const inputFields = ["email", "password"];
 
-  const error = validateInputs(req.body, inputFields);
+  const error = _validateInputs(req.body, inputFields);
 
   if (error) {
     return res.status(400).json({
@@ -137,7 +137,7 @@ const loginController = async (req, res) => {
     });
   }
 
-  const token = generateToken(user);
+  const token = _generateToken(user);
 
   return res
     .cookie("token", token, { httpOnly: true })
@@ -154,7 +154,10 @@ const loginController = async (req, res) => {
 };
 
 const logoutController = async (req, res) => {
-  const token = req.cookies.token;
+  const token =
+    req.cookies?.token ||
+    req.body?.token ||
+    req.header("Authorization")?.replace("Bearer ", "");
 
   if (token) {
     await Blacklist.create({ token });
@@ -166,4 +169,26 @@ const logoutController = async (req, res) => {
   });
 };
 
-export { signUpController, loginController, logoutController };
+const getUser = async (req, res) => {
+  const userId = req.user?.id;
+
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      error: "User not found.",
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    user: {
+      id: user._id,
+      email: user.email,
+      username: user.username,
+    },
+    message: "User Details fetched successfully.",
+  });
+};
+
+export { signUpController, loginController, logoutController, getUser };

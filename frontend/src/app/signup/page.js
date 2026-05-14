@@ -17,13 +17,12 @@ export default function SignupPage() {
     username: "",
     email: "",
     password: "",
-    api: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const _handleChange = (e) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
@@ -34,28 +33,27 @@ export default function SignupPage() {
     setErrors((prev) => ({
       ...prev,
       [name]: "",
-      api: "",
     }));
   };
 
-  const validateForm = () => {
+  const _validateForm = () => {
     const newErrors = {};
 
-    if (!formData.username.trim()) {
+    if (!formData?.username?.trim()) {
       newErrors.username = "Username is required";
-    } else if (formData.username.length < 3) {
+    } else if (formData?.username?.length < 3) {
       newErrors.username = "Username must be at least 3 characters";
     }
 
-    if (!formData.email.trim()) {
+    if (!formData?.email?.trim()) {
       newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData?.email)) {
       newErrors.email = "Enter a valid email address";
     }
 
-    if (!formData.password) {
+    if (!formData?.password?.trim()) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
+    } else if (formData?.password?.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
 
@@ -67,10 +65,10 @@ export default function SignupPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const _handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateForm()) return;
+    if (!_validateForm()) return;
 
     try {
       setLoading(true);
@@ -93,15 +91,12 @@ export default function SignupPage() {
       }
       */
 
-      console.log("FORM DATA:", formData);
+      console.log("SIGNUP DATA:", formData);
 
       // temporary success simulation
       await new Promise((resolve) => setTimeout(resolve, 1500));
     } catch (error) {
-      setErrors((prev) => ({
-        ...prev,
-        api: error.message || "Something went wrong",
-      }));
+      console.log("_handleSumbit::error:", error);
     } finally {
       setLoading(false);
     }
@@ -133,7 +128,7 @@ export default function SignupPage() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-7">
+        <form onSubmit={_handleSubmit} className="space-y-7">
           {/* Username */}
           <div>
             <label className="mb-3 block text-sm font-medium tracking-wide text-gray-200">
@@ -142,7 +137,7 @@ export default function SignupPage() {
 
             <div
               className={`group flex items-center gap-3 border-b pb-3 transition ${
-                errors.username
+                errors?.username
                   ? "border-red-500"
                   : "border-white/10 focus-within:border-violet-400"
               }`}
@@ -155,15 +150,15 @@ export default function SignupPage() {
               <input
                 type="text"
                 name="username"
-                value={formData.username}
-                onChange={handleChange}
+                value={formData?.username}
+                onChange={_handleChange}
                 placeholder="curator_aura"
                 className="w-full bg-transparent text-[15px] font-medium tracking-[-0.01em] text-white placeholder:text-gray-500 focus:outline-none"
               />
             </div>
 
-            {errors.username && (
-              <p className="mt-2 text-sm text-red-400">{errors.username}</p>
+            {errors?.username && (
+              <p className="mt-2 text-sm text-red-400">{errors?.username}</p>
             )}
           </div>
 
@@ -175,7 +170,7 @@ export default function SignupPage() {
 
             <div
               className={`group flex items-center gap-3 border-b pb-3 transition ${
-                errors.email
+                errors?.email
                   ? "border-red-500"
                   : "border-white/10 focus-within:border-violet-400"
               }`}
@@ -188,15 +183,15 @@ export default function SignupPage() {
               <input
                 type="email"
                 name="email"
-                value={formData.email}
-                onChange={handleChange}
+                value={formData?.email}
+                onChange={_handleChange}
                 placeholder="name@aura.io"
                 className="w-full bg-transparent text-[15px] font-medium tracking-[-0.01em] text-white placeholder:text-gray-500 focus:outline-none"
               />
             </div>
 
-            {errors.email && (
-              <p className="mt-2 text-sm text-red-400">{errors.email}</p>
+            {errors?.email && (
+              <p className="mt-2 text-sm text-red-400">{errors?.email}</p>
             )}
           </div>
 
@@ -208,7 +203,7 @@ export default function SignupPage() {
 
             <div
               className={`group flex items-center gap-3 border-b pb-3 transition ${
-                errors.password
+                errors?.password
                   ? "border-red-500"
                   : "border-white/10 focus-within:border-violet-400"
               }`}
@@ -221,8 +216,8 @@ export default function SignupPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                value={formData.password}
-                onChange={handleChange}
+                value={formData?.password}
+                onChange={_handleChange}
                 placeholder="••••••••"
                 className="w-full bg-transparent text-[15px] font-medium tracking-[-0.01em] text-white placeholder:text-gray-500 focus:outline-none"
               />
@@ -236,17 +231,10 @@ export default function SignupPage() {
               </button>
             </div>
 
-            {errors.password && (
-              <p className="mt-2 text-sm text-red-400">{errors.password}</p>
+            {errors?.password && (
+              <p className="mt-2 text-sm text-red-400">{errors?.password}</p>
             )}
           </div>
-
-          {/* API Error */}
-          {errors.api && (
-            <div className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-300">
-              {errors.api}
-            </div>
-          )}
 
           {/* Button */}
           <button
