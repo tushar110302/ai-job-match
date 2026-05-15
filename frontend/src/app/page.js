@@ -1,10 +1,10 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import Workflow from "@/components/Workflow";
-import MatchScore from "@/components/MatchScore";
-import InterviewPrep from "@/components/InterviewPrep";
-import CTA from "@/components/CTA";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/home/Navbar";
+import Hero from "@/components/home/Hero";
+import Workflow from "@/components/home/Workflow";
+import MatchScore from "@/components/home/MatchScore";
+import InterviewPrep from "@/components/home/InterviewPrep";
+import CTA from "@/components/home/CTA";
+import Footer from "@/components/home/Footer";
 
 export default function Home() {
   return (

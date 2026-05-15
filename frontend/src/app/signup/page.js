@@ -6,8 +6,13 @@ import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail, User, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Api } from "@/services/api";
+import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
+    const router = useRouter();
+  
+  const { user, handleSignup, loading } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -21,7 +26,7 @@ export default function SignupPage() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const _handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,19 +76,9 @@ export default function SignupPage() {
 
     if (!_validateForm()) return;
 
-    try {
-      setLoading(true);
-
-      console.log("SIGNUP DATA:", formData);
-
-      const response = await Api.signup(formData);
-      console.log(response);
-      localStorage.setItem("user", response?.user);
-    } catch (error) {
-      console.log("_handleSumbit::error:", error);
-    } finally {
-      setLoading(false);
-    }
+    console.log("SIGNUP DATA:", formData);
+    const res = await handleSignup(formData);
+    res?.success && router.replace("/dashboard");
   };
 
   return (

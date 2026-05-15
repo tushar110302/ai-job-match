@@ -6,8 +6,12 @@ import { useState } from "react";
 import { Eye, EyeOff, Lock, Mail, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Api } from "@/services/api";
+import useAuth from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const { user, handleLogin, loading } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -19,7 +23,7 @@ export default function LoginPage() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const _handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,19 +66,10 @@ export default function LoginPage() {
     e.preventDefault();
 
     if (!_validateForm()) return;
+    // console.log("LOGIN DATA:", formData);
 
-    try {
-      setLoading(true);
-      // console.log("LOGIN DATA:", formData);
-
-      const response = await Api.login(formData);
-      console.log(response);
-      localStorage.setItem("user", response?.user);
-    } catch (error) {
-      console.log("_handleSubmit::error: ", error);
-    } finally {
-      setLoading(false);
-    }
+    const res = await handleLogin(formData);
+    res?.success && router.replace("/dashboard");
   };
 
   return (
@@ -191,7 +186,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="group relative mt-2 flex h-14 w-full items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-r from-[#6d5dfc] to-[#b05cff] text-sm font-semibold tracking-wide text-white transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(139,92,246,0.45)] disabled:cursor-not-allowed disabled:opacity-70"
+            className="group relative mt-2 flex h-14 w-full items-center justify-center overflow-hidden rounded-2xl bg-linear-to-r from-[#6d5dfc] to-[#b05cff] text-sm font-semibold tracking-wide text-white transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(139,92,246,0.45)] disabled:cursor-not-allowed disabled:opacity-70"
           >
             <span className="absolute inset-0 bg-white/10 opacity-0 transition group-hover:opacity-100" />
 
