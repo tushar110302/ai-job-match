@@ -3,7 +3,7 @@ import packegeJson from "../../package.json";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const APP_VERSION = packegeJson?.version ?? "";
 
-const _apiClient = async (
+export const apiClient = async (
   endpoint,
   method = "GET",
   body = {},
@@ -34,9 +34,9 @@ const _apiClient = async (
   }
 };
 
-export class Api {
-    static login = async (payload) => await _apiClient("auth/login", "POST", payload);
-    static signup = async (payload) => await _apiClient("auth/signup", "POST", payload);
-    static logout = async () => await _apiClient("auth/logout", "POST");
-    static getUser = async () => await _apiClient("auth/getUser", "POST");
+export class AuthApi {
+    static login = async (payload) => await apiClient("auth/login", "POST", payload);
+    static signup = async (payload) => await apiClient("auth/signup", "POST", payload);
+    static logout = async () => await apiClient("auth/logout", "POST");
+    static getUser = async () => await apiClient("auth/getUser", "POST");
 }

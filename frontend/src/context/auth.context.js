@@ -1,6 +1,6 @@
 "use client";
 
-import { Api } from "@/services/api";
+// import { AuthApi } from "@/services/auth.services";
 import { createContext, useContext, useEffect, useReducer } from "react";
 
 const AuthContext = createContext(null);
@@ -9,7 +9,7 @@ const initialState = {
   user: null,
 };
 
-const uathReducer = (state, action) => {
+const authReducer = (state, action) => {
   switch (action.type) {
     case "SET_USER":
       return {
@@ -28,13 +28,14 @@ const uathReducer = (state, action) => {
 
 export const AuthProvider = ({ children }) => {
   const [authState, authDispatch] = useReducer(
-    uathReducer,
+    authReducer,
     initialState,
     () => {
       if (typeof window === "undefined") {
         return initialState;
       }
       const storedUser = localStorage.getItem("user");
+      console.log("AUTH PROVIDER : user : ", JSON.parse(storedUser));
       return { user: storedUser ? JSON.parse(storedUser) : null };
     },
   );
@@ -48,19 +49,6 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     authDispatch({ type: "LOGOUT" });
   };
-
-  useEffect(() => {
-      const _getUser = async () => {
-        try {
-          const response = await Api.getUser();
-          //   console.log(response);
-          setUser(response?.user);
-        } catch (error) {
-          console.log("_getUser::error: ", error);
-        }
-      }
-      _getUser();
-  },[])
 
   return (
     <AuthContext.Provider value={{ ...authState, setUser, logout }}>
