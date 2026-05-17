@@ -1,12 +1,15 @@
-import ProtectedRoute from '@/components/ProtectedRoute'
-import React from 'react'
+"use client";
 
-const page = () => {
+import DashboardPage from "@/components/auth/dashboard/page";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import React from "react";
+
+const Dashboard = () => {
   return (
     <ProtectedRoute>
-        <h1>Dashboard</h1>
+      <DashboardPage />
     </ProtectedRoute>
-  )
-}
+  );
+};
 
-export default page
+export default Dashboard;

@@ -3,26 +3,25 @@ import { useAuthContext } from "@/context/auth.context";
 import { AuthApi } from "@/services/auth.service";
 
 const useAuth = () => {
-  const { user, setUser, logout } = useAuthContext();
-  const [loading, setLoading] = useState(false);
+  const { user, setUser, logout, authLoading } = useAuthContext();
+  const [actionLoading, setActionLoading] = useState(false);
 
   const handleLogin = async (payload) => {
-    setLoading(true);
+    setActionLoading(true);
     try {
       const response = await AuthApi.login(payload);
-      //   console.log(response);
       setUser(response?.user);
       return response;
     } catch (error) {
       console.log("handleLogin::error: ", error);
       return { success: false, error };
     } finally {
-      setLoading(false);
+      setActionLoading(false);
     }
   };
 
   const handleSignup = async (payload) => {
-    setLoading(true);
+    setActionLoading(true);
     try {
       const response = await AuthApi.signup(payload);
       //   console.log(response);
@@ -32,12 +31,12 @@ const useAuth = () => {
       console.log("handleSignup::error: ", error);
       return { success: false, error };
     } finally {
-      setLoading(false);
+      setActionLoading(false);
     }
   };
 
   const handleLogout = async () => {
-    setLoading(true);
+    setActionLoading(true);
     try {
       const response = await AuthApi.logout();
       logout();
@@ -46,25 +45,18 @@ const useAuth = () => {
       console.log("handleLogout::error: ", error);
       return { success: false, error };
     } finally {
-      setLoading(false);
+      setActionLoading(false);
     }
   };
 
-  useEffect(() => {
-    if(user) return;
-    const _getUser = async () => {
-      try {
-        const response = await AuthApi.getUser();
-        //   console.log(response);
-        setUser(response?.user);
-      } catch (error) {
-        console.log("_getUser::error: ", error);
-      }
-    };
-    _getUser();
-  }, []);
-
-  return { user, loading, handleLogin, handleSignup, handleLogout };
+  return {
+    user,
+    actionLoading,
+    authLoading,
+    handleLogin,
+    handleSignup,
+    handleLogout,
+  };
 };
 
 export default useAuth;

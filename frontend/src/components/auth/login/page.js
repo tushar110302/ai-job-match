@@ -13,7 +13,7 @@ import PasswordInput from "@/components/auth/PasswordInput";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { user, handleLogin, loading } = useAuth();
+  const { user, handleLogin, actionLoading } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -73,7 +73,7 @@ const LoginPage = () => {
     const res = await handleLogin(formData);
     // res?.success && router.push("/dashboard");
     if (res?.success) {
-      redirect("/dashboard");
+      router.push("/dashboard");
     }
   };
 
@@ -103,7 +103,7 @@ const LoginPage = () => {
           error={errors?.password}
         />
 
-        <AuthButton loading={loading} text="Log In" />
+        <AuthButton loading={actionLoading} text="Log In" />
 
         <p className="text-center text-sm text-gray-400">
           Don&apos;t have an account?{" "}

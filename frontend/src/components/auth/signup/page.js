@@ -14,7 +14,7 @@ import PasswordInput from "@/components/auth/PasswordInput";
 const SignUpPage = () => {
   const router = useRouter();
 
-  const { user, handleSignup, loading } = useAuth();
+  const { user, handleSignup, actionLoading } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -82,7 +82,7 @@ const SignUpPage = () => {
     const res = await handleSignup(formData);
     // res?.success && router.push("/dashboard");
     if (res?.success) {
-      redirect("/dashboard");
+      router.push("/dashboard");
     }
   };
 
@@ -122,7 +122,7 @@ const SignUpPage = () => {
           error={errors?.password}
         />
 
-        <AuthButton loading={loading} text="Sigun Up" />
+        <AuthButton loading={actionLoading} text="Sigun Up" />
 
         <p className="text-center text-sm text-gray-400">
           Already a member?{" "}
