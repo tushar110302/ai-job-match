@@ -10,8 +10,8 @@ const useInterview = () => {
     setLoading(true);
     try {
       const response = await InterviewApi.generateReport(payload);
-      setReport(response?.interviewReport);
-      return response?.interviewReport;
+      setReport(response?.report);
+      return response?.report;
     } catch (error) {
       console.error("generateReport::error:", error);
       return { success: false, error };
@@ -24,8 +24,8 @@ const useInterview = () => {
     setLoading(true);
     try {
       const response = await InterviewApi.getReportById(payload);
-      setReport(response?.interviewReport);
-      return response?.interviewReport;
+      setReport(response?.report);
+      return response?.report;
     } catch (error) {
       console.error("getReportById::error:", error);
       return { success: false, error };
@@ -38,8 +38,8 @@ const useInterview = () => {
     setLoading(true);
     try {
       const response = await InterviewApi.getAllReports();
-      setReports(response?.interviewReports);
-      return response?.interviewReports;
+      setReports(response?.reports);
+      return response?.reports;
     } catch (error) {
       console.error("getReports::error:", error);
       return { success: false, error };

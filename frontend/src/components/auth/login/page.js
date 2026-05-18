@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Lock, Mail } from "lucide-react";
 import React, { useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
 
 import AuthButton from "@/components/auth/AuthButton";
@@ -13,7 +13,7 @@ import PasswordInput from "@/components/auth/PasswordInput";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { user, handleLogin, actionLoading } = useAuth();
+  const { handleLogin, actionLoading } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -23,9 +23,6 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-
-  // const [showPassword, setShowPassword] = useState(false);
-  // const [loading, setLoading] = useState(false);
 
   const _handleChange = (e) => {
     const { name, value } = e.target;

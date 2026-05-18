@@ -8,7 +8,7 @@ export const apiClient = async (
   method = "GET",
   body = {},
   headers = {},
-  timeout = 1000,
+  timeout = 10000,
 ) => {
   try {
     const res = await fetch(`${BASE_URL}/${endpoint}`, {

@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import { AuthProvider } from "@/context/auth.context";
+import { InterviewProvider } from "@/context/interview.context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,7 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "ResumeAi.ai",
-  description: "ResumeAi.ai - Your AI Resume Analyzer, helping you find the perfect job.",
+  description:
+    "ResumeAi.ai - Your AI Resume Analyzer, helping you find the perfect job.",
 };
 
 export default function RootLayout({ children }) {
@@ -24,7 +26,9 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <InterviewProvider>{children}</InterviewProvider>
+        </AuthProvider>
       </body>
     </html>
   );

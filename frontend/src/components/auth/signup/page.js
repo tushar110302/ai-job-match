@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Lock, Mail, User } from "lucide-react";
 import React, { useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
 
 import AuthButton from "@/components/auth/AuthButton";
@@ -14,7 +14,7 @@ import PasswordInput from "@/components/auth/PasswordInput";
 const SignUpPage = () => {
   const router = useRouter();
 
-  const { user, handleSignup, actionLoading } = useAuth();
+  const { handleSignup, actionLoading } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -26,9 +26,6 @@ const SignUpPage = () => {
     email: "",
     password: "",
   });
-
-  const [showPassword, setShowPassword] = useState(false);
-  // const [loading, setLoading] = useState(false);
 
   const _handleChange = (e) => {
     const { name, value } = e.target;

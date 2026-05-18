@@ -1,5 +1,7 @@
-import app from "./src/app.js";
+/* eslint-disable import/extensions */
+// eslint-disable-next-line no-unused-vars
 import dotenv from "dotenv/config";
+import app from "./src/app.js";
 import { connectDB } from "./src/config/database.js";
 
 const PORT = process.env.PORT || 4000;

@@ -4,9 +4,13 @@ import { generateInterviewReport } from "../services/ai.service.js";
 
 const generateReportController = async (req, res) => {
   const { selfDescription, jobDescription } = req.body;
-  const resumeContent = await new PDFParse(
-    Uint8Array.from(req.file.buffer),
-  ).getText();
+  let resumeContent = "";
+  if(req.file){
+    resumeContent = await new PDFParse(
+      Uint8Array.from(req.file?.buffer),
+    ).getText();
+
+  }
 
   if (!selfDescription || !jobDescription) {
     return res.status(400).json({
@@ -17,42 +21,41 @@ const generateReportController = async (req, res) => {
 
   try {
     const reportByAi = await generateInterviewReport({
-      resume: resumeContent.text,
+      resume: resumeContent?.text,
       selfDescription,
       jobDescription,
     });
-
     if(!reportByAi) {
       return res.status(404).json({
         success: false,
         error: "Report could not be generated",
       });
     }
-    console.log("AI REPORT\n", reportByAi);
+    // console.log("AI REPORT\n", reportByAi);
     
-    return res.status(200).json({
-      success: true,
-      ...reportByAi,
-      resume: resumeContent.text,
-      selfDescription,
-      jobDescription,
-      message: "Interview report generated successfully.",
-    });
-
-    // const report = await InterviewReport.create({
+    // return res.status(200).json({
+    //   success: true,
+    //   ...reportByAi,
     //   resume: resumeContent.text,
     //   selfDescription,
     //   jobDescription,
-    //   user: req.user?.id,
-    //   // title: req.body.title,
-    //   ...reportByAi,
-    // });
-
-    // return res.status(200).json({
-    //   success: true,
-    //   report,
     //   message: "Interview report generated successfully.",
     // });
+
+    const report = await InterviewReport.create({
+      resume: resumeContent.text,
+      selfDescription,
+      jobDescription,
+      user: req.user?.id,
+      // title: req.body.title,
+      ...reportByAi,
+    });
+
+    return res.status(200).json({
+      success: true,
+      report,
+      message: "Interview report generated successfully.",
+    });
   } catch (error) {
     console.log("generateReportController::error: ", error);
     return res.status(500).json({
