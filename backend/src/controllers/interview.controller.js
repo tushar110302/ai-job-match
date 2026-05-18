@@ -28,6 +28,8 @@ const generateReportController = async (req, res) => {
         error: "Report could not be generated",
       });
     }
+    console.log("AI REPORT\n", reportByAi);
+    
     return res.status(200).json({
       success: true,
       ...reportByAi,
