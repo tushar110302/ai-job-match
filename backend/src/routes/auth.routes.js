@@ -7,14 +7,14 @@ import {
 } from "../controllers/auth.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
-const router = Router();
+const authRouter = Router();
 
-router.post("/signup", signUpController);
+authRouter.post("/signup", signUpController);
 
-router.post("/login", loginController);
+authRouter.post("/login", loginController);
 
-router.post("/logout", logoutController);
+authRouter.post("/logout", logoutController);
 
-router.post("/getUser", verifyJWT, getUser);
+authRouter.post("/getUser", verifyJWT, getUser);
 
-export default router;
+export default authRouter;

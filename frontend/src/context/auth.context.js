@@ -1,7 +1,6 @@
 "use client";
 
-import { AuthApi } from "@/services/api";
-// import { AuthApi } from "@/services/auth.services";
+import { AuthApi } from "@/services/auth.service";
 import {
   createContext,
   useContext,
