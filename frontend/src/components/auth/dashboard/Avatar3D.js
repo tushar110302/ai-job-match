@@ -14,7 +14,7 @@ const Avatar3D = () => {
           sm:w-28 sm:h-28
           md:w-32 md:h-32
           rounded-full
-          bg-gradient-to-br from-[#1d275f] to-[#0b1235]
+          bg-linear-to-br from-[#1d275f] to-[#0b1235]
           border border-white/10
           shadow-[0_15px_40px_rgba(0,0,0,0.45)]
           flex items-center justify-center
@@ -22,7 +22,7 @@ const Avatar3D = () => {
         "
       >
         {/* glossy layer */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-b from-white/10 to-transparent" />
 
         {/* SVG Avatar */}
         <svg

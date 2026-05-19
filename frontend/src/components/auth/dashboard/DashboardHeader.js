@@ -2,13 +2,16 @@
 
 import React from "react";
 import { LogOut } from "lucide-react";
+import Link from "next/link";
 
 const DashboardHeader = ({ loading, onLogout }) => {
   return (
     <header className="relative z-10 h-16 sm:h-18 px-4 sm:px-6 md:px-8 flex items-center justify-between">
-      <h1 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-[#d6d2ff]">
-        ResumeAI
-      </h1>
+      <Link href="/" className="text-white font-bold text-lg tracking-tight">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-[#d6d2ff]">
+          ResumeAI
+        </h1>
+      </Link>
 
       <button
         onClick={onLogout}

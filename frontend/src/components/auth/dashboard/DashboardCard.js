@@ -6,7 +6,7 @@ import Avatar3D from "./Avatar3D";
 import GenerateButton from "./GenerateButton";
 // import Badge from "./Badge";
 
-const DashboardCard = ({ user, reportLoading, onGenerateReport }) => {
+const DashboardCard = ({ user }) => {
   return (
     <div
       className="
@@ -35,7 +35,7 @@ const DashboardCard = ({ user, reportLoading, onGenerateReport }) => {
         </p>
       </div>
 
-      <GenerateButton loading={reportLoading} onClick={onGenerateReport} />
+      <GenerateButton />
 
       {/* badges */}
       {/* <div className="mt-6 sm:mt-8 flex items-center gap-2 sm:gap-3 flex-wrap justify-center">

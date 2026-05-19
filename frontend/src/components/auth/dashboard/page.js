@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import { InterviewApi } from "@/services/interview.service";
 
 import DashboardCard from "./DashboardCard";
 import DashboardHeader from "./DashboardHeader";
@@ -44,58 +43,59 @@ Strong problem-solving abilities with a focus on writing maintainable, efficient
 
 const DashboardPage = () => {
   const router = useRouter();
-  const [reportLoading, setReportLoading] = useState(false);
   const { user, actionLoading, handleLogout } = useAuth();
-  const {generateReport, loading, report, reports} = useInterview();
+  const { reports, getReports } = useInterview();
 
   const _logout = async () => {
     await handleLogout();
     router.push("/login");
   };
 
-  const _onGenerateReport = async () => {
-    setReportLoading(true);
-    try {
-      const response = await InterviewApi.generateReport({
-        resume: "",
-        jobDescription: jd,
-        selfDescription: sd
-      });
-      console.log(response)
-      // TODO: wire to your report generation API
-      // await new Promise((r) => setTimeout(r, 2000));
-      
-    } catch (error) {
-      console.log("_onGenerateReport::error: ", error);
-    }
-    finally{
-      setReportLoading(false);
-    }
+  // const _onGenerateReport = async () => {
+  //   // setReportLoading(true);
+  //   const response = await generateReport({
+  //     resume: "",
+  //     jobDescription: jd,
+  //     selfDescription: sd,
+  //   });
+  //   console.log(response);
+  //   if (response?.success) {
+  //     router.push(`/interview-report/${report?._id}`);
+  //   }
+  //   // setReportLoading(false);
+  // };
+
+  const _getUserReports = async () => {
+    const response = await getReports();
+    // console.log(response);
   };
+
+  useEffect(() => {
+    _getUserReports();
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#030b2b] text-white flex flex-col overflow-hidden relative">
       {/* background glow */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-0 w-[250px] sm:w-[350px] md:w-[400px] h-[250px] sm:h-[350px] md:h-[400px] bg-purple-700/20 blur-[100px] md:blur-[120px] rounded-full" />
+        <div className="absolute top-0 left-0 w-62.5 sm:w-87.5 md:w-100 h-62.5 sm:h-87.5 md:h-100 bg-purple-700/20 blur-[100px] md:blur-[120px] rounded-full" />
 
-        <div className="absolute bottom-0 right-0 w-[250px] sm:w-[350px] md:w-[400px] h-[250px] sm:h-[350px] md:h-[400px] bg-blue-700/20 blur-[100px] md:blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 right-0 w-62.5 sm:w-87.5 md:w-100 h-62.5 sm:h-87.5 md:h-100 bg-blue-700/20 blur-[100px] md:blur-[120px] rounded-full" />
       </div>
 
-      <DashboardHeader
-        loading={actionLoading}
-        onLogout={_logout}
-      />
+      <DashboardHeader loading={actionLoading} onLogout={_logout} />
 
-      <main className="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 ">
+      <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 ">
         {/* center glow */}
-        <div className="absolute w-[300px] sm:w-[450px] md:w-[550px] h-[300px] sm:h-[450px] md:h-[550px] bg-blue-600/10 blur-[100px] md:blur-[120px] rounded-full" />
+        <div className="absolute w-75 sm:w-112.5 md:w-137.5 h-75 sm:h-112.5 md:h-137.5 bg-blue-600/10 blur-[100px] md:blur-[120px] rounded-full" />
 
-        <DashboardCard
-          user={user}
-          reportLoading={reportLoading}
-          onGenerateReport={_onGenerateReport}
-        />
+        <DashboardCard user={user} />
+        {reports.length > 0 && (
+          <button className="text-2xl bg-amber-800 px-2 py-3 mt-5">
+            {" "}
+            Your Reports: {reports.length}
+          </button>
+        )}
       </main>
     </div>
   );
