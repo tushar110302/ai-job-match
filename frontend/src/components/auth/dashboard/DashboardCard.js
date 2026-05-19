@@ -1,10 +1,8 @@
 "use client";
 
 import React from "react";
-
 import Avatar3D from "./Avatar3D";
 import GenerateButton from "./GenerateButton";
-// import Badge from "./Badge";
 
 const DashboardCard = ({ user }) => {
   return (
@@ -24,7 +22,6 @@ const DashboardCard = ({ user }) => {
     >
       <Avatar3D />
 
-      {/* user info */}
       <div className="mt-5 sm:mt-6 text-center">
         <h2 className="text-2xl sm:text-3xl font-bold text-[#d7daf6] tracking-tight">
           {user?.username}
@@ -37,12 +34,6 @@ const DashboardCard = ({ user }) => {
 
       <GenerateButton />
 
-      {/* badges */}
-      {/* <div className="mt-6 sm:mt-8 flex items-center gap-2 sm:gap-3 flex-wrap justify-center">
-        <Badge>Premium Member</Badge>
-
-        <Badge>Verified</Badge>
-      </div> */}
     </div>
   );
 };

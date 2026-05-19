@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
   Code2,
   MessageSquare,
@@ -291,7 +291,7 @@ export default function ReportView() {
     max-w-64
     border-r border-white/6
     bg-[#0b1326]
-    py-6 px-2
+    py-6 px-4
     flex-col
     gap-8
     sticky top-16
@@ -333,12 +333,7 @@ export default function ReportView() {
         </aside>
 
         {/* main content */}
-        <main
-          className="flex-1
-    min-w-0
-    px-4 md:px-8 lg:px-10
-    py-8"
-        >
+        <main className="flex-1 min-w-0 px-3 md:px-6 lg:px-9 py-8" >
           {/* ── mobile: score + skill gaps ── */}
           <div className="md:hidden space-y-6 mb-6">
             {loading ? (
@@ -397,14 +392,14 @@ export default function ReportView() {
           {/* ── tab bar ── */}
           <div
             ref={tabBarRef}
-            className="sticky top-16 z-40 -mx-4 px-4 md:-mx-0 md:px-0 py-3 bg-[#060e20]/95 backdrop-blur-xl border-b border-white/[0.06] mb-6 flex gap-2 overflow-x-auto no-scrollbar"
+            className="md:hidden sticky top-0 z-40 -mx-4 px-4 md:-mx-0 md:px-0 py-3 bg-[#060e20]/95 backdrop-blur-xl border-b border-white/[0.06] mb-6 flex gap-2 overflow-x-auto no-scrollbar"
           >
             {TABS.map(({ id: tabId, label, icon: Icon }) => (
               <button
                 key={tabId}
                 data-tab={tabId}
                 onClick={() => handleTabChange(tabId)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl whitespace-nowrap text-sm font-semibold transition-all flex-shrink-0
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl whitespace-nowrap text-sm font-semibold transition-all shrink-0
                   ${
                     activeTab === tabId
                       ? "bg-[#6366f1]/15 text-[#8083ff] border border-[#6366f1]/25"
@@ -448,9 +443,6 @@ export default function ReportView() {
                     <h2 className="text-lg font-black text-white">
                       Technical Questions
                     </h2>
-                    <span className="text-[11px] bg-white/[0.05] border border-white/[0.08] px-3 py-1 rounded-full text-[#464554] font-semibold">
-                      {technicalQuestions.length} questions
-                    </span>
                   </div>
                   {technicalQuestions.map((q, i) => (
                     <QuestionCard key={i} q={q} index={i} type="technical" />
@@ -464,9 +456,6 @@ export default function ReportView() {
                     <h2 className="text-lg font-black text-white">
                       Behavioral Questions
                     </h2>
-                    <span className="text-[11px] bg-white/[0.05] border border-white/[0.08] px-3 py-1 rounded-full text-[#464554] font-semibold">
-                      {behavioralQuestions.length} questions
-                    </span>
                   </div>
                   {behavioralQuestions.map((q, i) => (
                     <QuestionCard key={i} q={q} index={i} type="behavioral" />
@@ -496,7 +485,7 @@ export default function ReportView() {
                 </div>
               )}
 
-              <div className="mt-10 rounded-2xl border border-white/[0.06] bg-gradient-to-br from-[#131b2e] to-[#0b1326] p-6 overflow-hidden relative">
+              <div className="mt-10 rounded-2xl border border-white/6 bg-linear-to-br from-[#131b2e] to-[#0b1326] p-6 overflow-hidden relative">
                 <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-[#6366f1]/5 blur-[60px] pointer-events-none" />
                 <div className="flex items-center gap-2 mb-4">
                   <Zap size={14} className="text-[#6366f1]" />
@@ -562,7 +551,7 @@ export default function ReportView() {
     max-w-[300px]
     border-l border-white/[0.06]
     bg-[#0b1326]
-    p-6
+    py-6 px-4
     flex-col
     justify-between
     sticky top-16

@@ -15,6 +15,7 @@ import {
 import DashboardHeader from "../auth/dashboard/DashboardHeader";
 import { useRouter } from "next/navigation";
 import useAuth from "@/hooks/useAuth";
+import useInterview from "@/hooks/useInterview";
 
 // ─── constants ────────────────────────────────────────────────────────────────
 const MAX_JD_CHARS = 5000;
@@ -54,7 +55,8 @@ export default function NewReportForm() {
   const fileInputRef = useRef(null);
 
   const router = useRouter();
-  const { user, actionLoading, handleLogout } = useAuth();
+  const { actionLoading, handleLogout } = useAuth();
+  const { generateReport } = useInterview();
 
   const _logout = async () => {
     await handleLogout();
@@ -87,11 +89,19 @@ export default function NewReportForm() {
     if (!jobDescription.trim()) return;
     setIsLoading(true);
     setDone(false);
-    // TODO: wire to useInterview().generateReport(...)
-    await new Promise((r) => setTimeout(r, 2200));
+    const response = await generateReport({
+      resume: "",
+      jobDescription: jobDescription.trim(),
+      selfDescription: selfDescription.trim(),
+    });
+    console.log(response);
+    if (response?.success) {
+      router.push(`/report/${response?.report?._id}`);
+    }
+    // await new Promise((r) => setTimeout(r, 2200));
     setIsLoading(false);
     setDone(true);
-    setTimeout(() => setDone(false), 3000);
+    // setTimeout(() => setDone(false), 3000);
   };
 
   const jdCount = jobDescription.length;
@@ -307,7 +317,8 @@ export default function NewReportForm() {
 
                 <p className="text-[13px] text-[#c7c4d7] leading-relaxed">
                   Either a <strong className="text-[#ffafd3]">Resume</strong> or
-                  a <strong className="text-[#ffafd3]">Self Description</strong>{" "} is required alongside the job description to generate your
+                  a <strong className="text-[#ffafd3]">Self Description</strong>{" "}
+                  is required alongside the job description to generate your
                   personalized winning strategy.
                 </p>
               </div>

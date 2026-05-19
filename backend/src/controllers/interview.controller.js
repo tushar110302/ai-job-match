@@ -5,11 +5,10 @@ import { generateInterviewReport } from "../services/ai.service.js";
 const generateReportController = async (req, res) => {
   const { selfDescription, jobDescription } = req.body;
   let resumeContent = "";
-  if(req.file){
+  if (req.file) {
     resumeContent = await new PDFParse(
       Uint8Array.from(req.file?.buffer),
     ).getText();
-
   }
 
   if (!selfDescription || !jobDescription) {
@@ -25,14 +24,14 @@ const generateReportController = async (req, res) => {
       selfDescription,
       jobDescription,
     });
-    if(!reportByAi) {
+    if (!reportByAi) {
       return res.status(404).json({
         success: false,
         error: "Report could not be generated",
       });
     }
     // console.log("AI REPORT\n", reportByAi);
-    
+
     // return res.status(200).json({
     //   success: true,
     //   ...reportByAi,
@@ -70,9 +69,12 @@ const getAllReportsController = async (req, res) => {
   const userId = req.user?.id;
 
   try {
-    const reports = await InterviewReport.find({ user: userId }).sort({
-      createdAt: -1,
-    });
+    const reports = await InterviewReport.find({ user: userId })
+      .sort({
+        createdAt: -1,
+      })
+      .select("title matchScore createdAt");
+      
     if (!reports) {
       return res.status(404).json({
         success: false,
@@ -98,11 +100,10 @@ const getReportById = async (req, res) => {
   const userId = req.user?.id;
 
   try {
-
     const report = await InterviewReport.findOne({
       _id: interview_id,
       user: userId,
-    });
+    }).select("-user -__v");
 
     if (!report) {
       return res.status(404).json({
@@ -116,7 +117,6 @@ const getReportById = async (req, res) => {
       report,
       message: "Interview report fetched successfully.",
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
