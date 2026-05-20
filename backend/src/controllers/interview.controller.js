@@ -30,23 +30,12 @@ const generateReportController = async (req, res) => {
         error: "Report could not be generated",
       });
     }
-    // console.log("AI REPORT\n", reportByAi);
-
-    // return res.status(200).json({
-    //   success: true,
-    //   ...reportByAi,
-    //   resume: resumeContent.text,
-    //   selfDescription,
-    //   jobDescription,
-    //   message: "Interview report generated successfully.",
-    // });
 
     const report = await InterviewReport.create({
       resume: resumeContent.text,
       selfDescription,
       jobDescription,
       user: req.user?.id,
-      // title: req.body.title,
       ...reportByAi,
     });
 
@@ -74,7 +63,7 @@ const getAllReportsController = async (req, res) => {
         createdAt: -1,
       })
       .select("title matchScore createdAt");
-      
+
     if (!reports) {
       return res.status(404).json({
         success: false,

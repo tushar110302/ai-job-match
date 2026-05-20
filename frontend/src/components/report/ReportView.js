@@ -251,7 +251,7 @@ export default function ReportView() {
   const { report, loading, getReportById, getResumePdf } = useInterview();
   const [activeTab, setActiveTab] = useState("technical");
   const tabBarRef = useRef(null);
-  console.log(id);
+
   useEffect(() => {
     if (id) getReportById({ interview_id: id });
   }, [id]);

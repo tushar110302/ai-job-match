@@ -50,13 +50,12 @@ export default function NewReportForm() {
   const [selfDescription, setSelfDescription] = useState("");
   const [file, setFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [done, setDone] = useState(false);
   const fileInputRef = useRef(null);
 
   const router = useRouter();
   const { actionLoading, handleLogout } = useAuth();
-  const { generateReport } = useInterview();
+  const { generateReport, loading } = useInterview();
 
   const _logout = async () => {
     await handleLogout();
@@ -87,21 +86,17 @@ export default function NewReportForm() {
 
   const handleSubmit = async () => {
     if (!jobDescription.trim()) return;
-    setIsLoading(true);
     setDone(false);
     const response = await generateReport({
-      resume: "",
+      resume: file,
       jobDescription: jobDescription.trim(),
       selfDescription: selfDescription.trim(),
     });
     console.log(response);
     if (response?.success) {
+      setDone(true);
       router.push(`/report/${response?.report?._id}`);
     }
-    // await new Promise((r) => setTimeout(r, 2200));
-    setIsLoading(false);
-    setDone(true);
-    // setTimeout(() => setDone(false), 3000);
   };
 
   const jdCount = jobDescription.length;
@@ -326,7 +321,7 @@ export default function NewReportForm() {
               {/* submit button — desktop */}
               <div className="hidden md:flex justify-end pt-2 border-t border-white/6 mt-auto">
                 <SubmitButton
-                  isLoading={isLoading}
+                  isLoading={loading}
                   done={done}
                   disabled={!jobDescription.trim()}
                   onClick={handleSubmit}
@@ -339,7 +334,7 @@ export default function NewReportForm() {
         {/* submit button — mobile sticky */}
         <div className="fixed bottom-0 inset-x-0 md:hidden p-4 bg-[#0b1326]/90 backdrop-blur-xl border-t border-white/6 z-50">
           <SubmitButton
-            isLoading={isLoading}
+            isLoading={loading}
             done={done}
             disabled={!jobDescription.trim()}
             onClick={handleSubmit}

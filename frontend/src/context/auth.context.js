@@ -43,7 +43,6 @@ export const AuthProvider = ({ children }) => {
         return initialState;
       }
       const storedUser = localStorage.getItem("user");
-      console.log("AUTH PROVIDER : user : ", JSON.parse(storedUser));
       return { user: storedUser ? JSON.parse(storedUser) : null };
     },
   );

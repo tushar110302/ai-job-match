@@ -10,17 +10,25 @@ export const apiClient = async (
   headers = {},
   timeout = 10000,
 ) => {
+  const isFormData = body instanceof FormData;
+console.log(isFormData)
+if(isFormData){
+  for (const [key, value] of body.entries()) {
+    console.log(key, value);
+  }
+}
   try {
     const res = await fetch(`${BASE_URL}/${endpoint}`, {
       method,
       headers: {
-        "Content-Type": "application/json",
         "x-app-version": APP_VERSION,
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
         ...headers,
       },
       signal: AbortSignal.timeout(timeout),
       credentials: "include",
-      ...(body ? { body: JSON.stringify(body) } : {}),
+      body: body ? (isFormData ? body : JSON.stringify(body)) : {},
+      // body: body ? JSON.stringify(body) : {},
     });
 
     if (!res.ok) {

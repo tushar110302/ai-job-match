@@ -9,9 +9,13 @@ const useInterview = () => {
   const generateReport = async (payload) => {
     setLoading(true);
     try {
-      const response = await InterviewApi.generateReport(payload);
+      const formData = new FormData();
+      for (const [key, value] of Object.entries(payload)) {
+        formData.append(key, value);
+      }
+      const response = await InterviewApi.generateReport(formData);
       setReport(response?.report);
-      return response?.report;
+      return response;
     } catch (error) {
       console.error("generateReport::error:", error);
       return { success: false, error };
@@ -25,7 +29,7 @@ const useInterview = () => {
     try {
       const response = await InterviewApi.getReportById(payload);
       setReport(response?.report);
-      return response?.report;
+      return response;
     } catch (error) {
       console.error("getReportById::error:", error);
       return { success: false, error };
@@ -39,7 +43,7 @@ const useInterview = () => {
     try {
       const response = await InterviewApi.getAllReports();
       setReports(response?.reports);
-      return response?.reports;
+      return response;
     } catch (error) {
       console.error("getReports::error:", error);
       return { success: false, error };

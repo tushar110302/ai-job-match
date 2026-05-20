@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "ResumeAi.ai",
+  title: "PrepLens",
   description:
-    "ResumeAi.ai - Your AI Resume Analyzer, helping you find the perfect job.",
+    "PrepLens - Your AI Resume Analyzer, helping you find the perfect job.",
 };
 
 export default function RootLayout({ children }) {

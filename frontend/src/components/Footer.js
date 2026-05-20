@@ -16,7 +16,7 @@ export default function Footer() {
           <div className="max-w-sm">
             <Link
               href="/"
-              className="inline-block text-xl font-bold tracking-tight text-white"
+              className="inline-block text-3xl font-bold tracking-tight text-white"
             >
               Prep<span className="text-violet-400">Lens</span>
             </Link>
