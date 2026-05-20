@@ -1,10 +1,9 @@
-import Navbar from "@/components/home/Navbar";
+import Navbar from "@/components/Navbar";
 import Hero from "@/components/home/Hero";
 import Workflow from "@/components/home/Workflow";
 import MatchScore from "@/components/home/MatchScore";
 import InterviewPrep from "@/components/home/InterviewPrep";
-import CTA from "@/components/home/CTA";
-import Footer from "@/components/home/Footer";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -14,7 +13,6 @@ export default function Home() {
       <Workflow />
       <MatchScore />
       <InterviewPrep />
-      <CTA />
       <Footer />
     </main>
   );

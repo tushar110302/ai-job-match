@@ -17,7 +17,7 @@ function AnimatedBar({ value, color, animate }) {
   return (
     <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
       <div
-        className={`h-full rounded-full bg-gradient-to-r ${color} transition-all duration-1000 ease-out`}
+        className={`h-full rounded-full bg-linear-to-r ${color} transition-all duration-1000 ease-out`}
         style={{ width: animate ? `${value}%` : "0%" }}
       />
     </div>

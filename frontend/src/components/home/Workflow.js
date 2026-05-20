@@ -36,7 +36,7 @@ const steps = [
 
 export default function Workflow() {
   return (
-    <section id="workflow" className="py-24 px-6 bg-[#0a0a0f]">
+    <section id="workflow" className="py-24 px-6 ">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
