@@ -1,6 +1,9 @@
 import { PDFParse } from "pdf-parse";
 import { InterviewReport } from "../models/interviewReport.model.js";
-import { generateInterviewReport } from "../services/ai.service.js";
+import {
+  generateInterviewReport,
+  generateResumePdf,
+} from "../services/ai.service.js";
 
 const generateReportController = async (req, res) => {
   const { selfDescription, jobDescription } = req.body;
@@ -84,7 +87,7 @@ const getAllReportsController = async (req, res) => {
   }
 };
 
-const getReportById = async (req, res) => {
+const getReportByIdController = async (req, res) => {
   const { interview_id } = req.body;
   const userId = req.user?.id;
 
@@ -115,4 +118,45 @@ const getReportById = async (req, res) => {
   }
 };
 
-export { generateReportController, getAllReportsController, getReportById };
+const generatePDFController = async (req, res) => {
+  const { report_id } = req.body;
+  try {
+    const report = await InterviewReport.findById(report_id).select(
+      "resume selfDescription jobDescription",
+    );
+    if (!report) {
+      return res.status(404).json({
+        success: false,
+        error: "Interview report not found.",
+      });
+    }
+
+    const { resume, selfDescription, jobDescription } = report;
+    const pdfBuffer = await generateResumePdf({
+      resume,
+      selfDescription,
+      jobDescription,
+    });
+
+    res.set({
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename=resume_${report_id}.pdf`
+    })
+
+    res.send(pdfBuffer);
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error,
+      message: "Failed to generate PDF.",
+    });
+  }
+};
+
+export {
+  generateReportController,
+  getAllReportsController,
+  getReportByIdController,
+  generatePDFController,
+};

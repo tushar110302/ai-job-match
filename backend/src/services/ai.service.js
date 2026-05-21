@@ -192,9 +192,6 @@ Requirements:
       contents: prompt,
       config: {
         responseMimeType: "application/json",
-        // responseSchema: zodToJsonSchema(interviewReportSchema, {
-        //   $refStrategy: "none", // ← this is the fix
-        // }),
         responseSchema: responseSchema,
         temperature: 0,
       },
@@ -228,13 +225,21 @@ async function generatePdfFromHtml(htmlContent) {
 }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
-  const resumePdfSchema = z.object({
-    html: z
-      .string()
-      .describe(
-        "The HTML content of the resume which can be converted to PDF using any library like puppeteer",
-      ),
-  });
+  // const resumePdfSchema = z.object({
+  //   html: z
+  //     .string()
+  //     .describe(
+  //       "The HTML content of the resume which can be converted to PDF using any library like puppeteer",
+  //     ),
+  // });
+
+  const responseSchema = {
+    type: Type.OBJECT,
+    properties: {
+      html: { type: Type.STRING },
+    },
+    required: ["html"],
+  };
 
   const prompt = `Generate resume for a candidate with the following details:
                         Resume: ${resume}
@@ -254,7 +259,7 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
     contents: prompt,
     config: {
       responseMimeType: "application/json",
-      responseSchema: zodToJsonSchema(resumePdfSchema),
+      responseSchema: responseSchema,
     },
   });
 

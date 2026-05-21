@@ -592,7 +592,7 @@ export default function ReportView() {
           {/* bottom action */}
           <div className="pt-6 border-t border-white/[0.06]">
             <button
-              onClick={() => getResumePdf(id)}
+              onClick={() => getResumePdf({ reportId: report.id })}
               className=" w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-white/[0.08] bg-white/[0.03]  hover:bg-white/[0.07] text-[#908fa0] hover:text-white transition-all text-sm font-semibold"
             >
               <Download size={14} />
